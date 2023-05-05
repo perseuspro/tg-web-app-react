@@ -3,8 +3,9 @@ import './App.css';
 import { useTelegram } from "../src/hooks/useTelegram";
 import Header from '../src/components/Header/Header'
 
-import { initializeApp } from 'firebase/app';
+import { initializeApp, messaging  } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+import "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDu3Ad7UzPTLro_RVSiDTyKEN3JDRf1ETI",
@@ -25,6 +26,18 @@ async function getCities(dbfcm) {
   return cityList;
 }
 
+const getToken = async () => {
+  try {
+    const messagingInstance = messaging();
+    await messagingInstance.requestPermission();
+    const token = await messagingInstance.getToken();
+    console.log("FCM Token:", token);
+    return token;
+  } catch (error) {
+    console.log("Unable to get FCM token:", error);
+  }
+};
+
 function App() {
   const {onTogleButton, tg} = useTelegram()
 
@@ -36,7 +49,8 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <button onClick={getCities}>toggle</button>
+      <button onClick={getCities}>getCities</button>
+      <button onClick={getToken}>getToken </button>
     </div>
   );
 }
