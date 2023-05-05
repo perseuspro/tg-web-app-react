@@ -3,6 +3,27 @@ import './App.css';
 import { useTelegram } from "../src/hooks/useTelegram";
 import Header from '../src/components/Header/Header'
 
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDu3Ad7UzPTLro_RVSiDTyKEN3JDRf1ETI",
+  authDomain: "salewbot.firebaseapp.com",
+  projectId: "salewbot",
+  storageBucket: "salewbot.appspot.com",
+  messagingSenderId: "67022450921",
+  appId: "1:67022450921:web:a28341969d5fa37b764078"
+};
+
+const fcm = initializeApp(firebaseConfig);
+const dbfcm = getFirestore(fcm);
+
+async function getCities(dbfcm) {
+  const citiesCol = collection(dbfcm, 'cities');
+  const citySnapshot = await getDocs(citiesCol);
+  const cityList = citySnapshot.docs.map(doc => doc.data());
+  return cityList;
+}
 
 function App() {
   const {onTogleButton, tg} = useTelegram()
@@ -15,7 +36,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <button onClick={onTogleButton}>toggle</button>
+      <button onClick={getCities}>toggle</button>
     </div>
   );
 }
