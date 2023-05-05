@@ -7,9 +7,9 @@ import Header from '../src/components/Header/Header'
 function App() {
   const {onTogleButton, tg} = useTelegram()
 
-  useEffect(()=>{
-    tg.ready()
-  },[])
+  // useEffect(()=>{
+  //   tg.ready()
+  // },[])
 
   
   return (
