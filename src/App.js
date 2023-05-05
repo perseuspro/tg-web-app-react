@@ -1,28 +1,23 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import { useTelegram } from "../src/hooks/useTelegram";
 import Header from '../src/components/Header/Header'
 
 import firebase from './firebase';
-import 'firebase/messaging'
 
 
 function App() {
+  const [token, setToken] = useState('');
   const {onTogleButton, tg} = useTelegram()
 
-  // useEffect(()=>{
-  //   tg.ready()
-  // },[])
-
   useEffect(() => {
-    const msg = firebase.messaging();
-    msg
+    const messaging = firebase.messaging();
+    messaging
       .requestPermission()
-      .then(() => {
-        return msg.getToken();
-      })
+      .then(() => messaging.getToken())
       .then((token) => {
         console.log("FCM Token:", token);
+        setToken(token);
       })
       .catch((error) => {
         console.log("Unable to get FCM token:", error);
@@ -32,7 +27,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <button onClick={getCities}>getCities</button>
+      <span>Token: {token}</span>
     </div>
   );
 }
