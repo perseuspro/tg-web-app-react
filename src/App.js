@@ -2,27 +2,23 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { useTelegram } from "../src/hooks/useTelegram";
 import Header from '../src/components/Header/Header'
-import Notification from './Notification'
+import * as PusherPushNotifications from "@pusher/push-notifications-web";
 
 function App() {
+  useEffect(() => {
+    const beamsClient = new PusherPushNotifications.Client({
+      instanceId: '6465a952-e818-497f-9ca9-2e2b9ad3655b',
+    });
+
+    beamsClient.start()
+      .then(() => beamsClient.addDeviceInterest('hello'))
+      .then(() => console.log('Successfully registered and subscribed!'))
+      .catch(console.error);
+  }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-      <Notification />
+    <div>
+      /* Your app code here */
     </div>
   );
 }
