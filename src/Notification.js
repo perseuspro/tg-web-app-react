@@ -10,16 +10,20 @@ const Notification = () => {
   };
 
   useEffect(() => {
-    requestNotificationsPermission();
-
-    const unregister = onMessageListener().then((payload) => {
-      setNotification({
-        title: payload.notification.title,
-        body: payload.notification.body,
-      });
-    });
-
-    return unregister;
+	const fetchData = async () => {
+	  requestNotificationsPermission();
+  
+	  const unregister = onMessageListener().then((payload) => {
+		setNotification({
+		  title: payload.notification.title,
+		  body: payload.notification.body,
+		});
+	  });
+  
+	  return unregister;
+	}
+  
+	fetchData();
   }, []);
 
   function ToastDisplay() {
