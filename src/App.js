@@ -2,32 +2,27 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { useTelegram } from "../src/hooks/useTelegram";
 import Header from '../src/components/Header/Header'
-
-import firebase from './firebase';
-
+import Notification from './Notification'
 
 function App() {
-  const [token, setToken] = useState('');
-  const {onTogleButton, tg} = useTelegram()
 
-  useEffect(() => {
-    const messaging = firebase.messaging();
-    messaging
-      .requestPermission()
-      .then(() => messaging.getToken())
-      .then((token) => {
-        console.log("FCM Token:", token);
-        setToken(token);
-      })
-      .catch((error) => {
-        console.log("Unable to get FCM token:", error);
-      });
-  }, []);
-  
   return (
     <div className="App">
-      <Header />
-      <span>Token: {token}</span>
+      <header className="App-header">
+        {/* <img src={logo} className="App-logo" alt="logo" /> */}
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+      <Notification />
     </div>
   );
 }
